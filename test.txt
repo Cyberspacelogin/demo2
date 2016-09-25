@@ -2,4 +2,9 @@ NOV File
 
 Updating with Bash…
 Update with Tortoise2…
+<<<<<<< HEAD
 second update from Tortoise
+=======
+new update
+
+>>>>>>> a3cb81aad20d58e4dcd3722f266ea045096b5636
