@@ -48,7 +48,7 @@ require 'includes/theArray.php';  //$groups=array(1=>'Hrani',2=>'Transport',3=>'
                     {   
                        $b = explode('!', $val); 
                       
-                       if(isset($_GET['group']) && $_GET['group']>0 && (int)$_GET['group']!=(int)$b[2]) //ako usloviqta sa izpylneni stava v ypros samo za 1 i syshta grupa, trqbva da se smqta i vizualizira
+                       if(isset($_GET['group']) && $_GET['group']>0 && (int)$_GET['group']!=(int)$b[2]) //!!!! zashto da e !=, te ne sa li vinagi ravni tiq...... facepalm
                        {
                            continue;  
                        }
