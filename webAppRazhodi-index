@@ -1,0 +1,79 @@
+
+<?php
+$pageTitle='Списък';  
+include 'includes/PHPheader.php';
+require 'includes/theArray.php';  //$groups=array(1=>'Hrani',2=>'Transport',3=>'Zabavleniq',4=>'Drugi'); 
+
+
+?>
+        <a href="form.php">Добави нов контакт</a>
+       
+       
+        <form method = "get"> 
+        <div>
+            <select name ="group">
+                <option value = "0">Vsichki</option>  
+                
+                <?php
+                    foreach ($groups as $key => $val) 
+                    {
+                    echo '<option';
+                        if (isset($_GET['group']) && (int) $_GET['group'] == $key) 
+                            {
+                            echo ' selected'; 
+                            }
+                    echo ' value="' . $key . '">' . $val . '</option>';
+                    }
+                ?>
+                
+            </select> 
+            <input type="submit" value="Filtrirai"/></div> 
+        </div>
+        </form>
+        
+        <table border="5">
+            <tr>
+                <td>Ime</td>
+                <td>Suma</td>
+                <td>Grupa</td>
+            </tr>
+
+            <?php    
+            if (file_exists('data.txt')) 
+                {
+                    $totalSum = 0; 
+                    
+                    $a = file('data.txt');  
+                    foreach ($a as $val)   
+                    {   
+                       $b = explode('!', $val); 
+                      
+                       if(isset($_GET['group']) && $_GET['group']>0 && (int)$_GET['group']!=(int)$b[2]) //ako usloviqta sa izpylneni stava v ypros samo za 1 i syshta grupa, trqbva da se smqta i vizualizira
+                       {
+                           continue;  
+                       }
+                       
+                       $totalSum += $b[1]; 
+                       echo 
+                            '<tr> 
+                                    <td>'.$b[0].'</td>
+                                    <td>'.$b[1].'</td>  
+                                    <td>'.$groups[trim($b[2])].'</td>  
+                            </tr>';
+                    }
+                    echo 
+                        '<tr> 
+                                <td></td>
+                                <td>'. number_format($totalSum, 2, '.', '').'</td> 
+                                <td></td>  
+                        </tr>';
+                }
+            ?>
+         </table>
+
+<?php
+include 'includes/PHPfooter.php';  
+?>
+
+
+
