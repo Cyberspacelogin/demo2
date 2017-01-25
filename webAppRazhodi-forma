@@ -1,0 +1,69 @@
+<?php
+
+$pageTitle='Форма';
+include 'includes/PHPheader.php';
+require 'includes/theArray.php'; 
+
+
+if($_POST) 
+{
+    $username=trim($_POST['username']);    
+    $username = str_replace('!', '', $username); 
+    
+    $sum =  (float)(str_replace(',' , '.', $_POST['sum'])); 
+    
+    $selectedGroup=(int)$_POST['group'];  
+    
+   
+    $error=false;
+    if (mb_strlen($username)<4) 
+    {
+     echo '<p>Името е прекалено късо</p>'; 
+     $error=true;
+    }
+    if ($sum<=0) 
+    {
+     echo '<p>Nevaliden razhod</p>';
+     $error=true;
+    } 
+    if (!array_key_exists($selectedGroup, $groups)) 
+    {
+     echo '<p>Невалидна група</p>';
+     $error=true;
+    }   
+    
+    
+    if ($error!=true) 
+    {   
+        
+        $result=$username.'!'.$sum.'!'.$selectedGroup."\n";  
+        file_put_contents('data.txt', $result, FILE_APPEND);  
+        echo '<p>Записът е успешен</p>'; 
+    }
+    
+}
+?>
+
+<a href ="index.php">Списък</a>
+
+<form method = "POST">  
+
+    <div>Ime:<input type="text" name="username"/></div>
+    <div>Suma:<input type="text" name="sum"/></div>
+    <div>
+        <select name ="group">    
+            <?php
+            foreach ($groups as $key => $val) { 
+                echo '<option value="' . $key . '">' . $val . '</option>'; 
+            }
+            ?>
+        </select>
+    </div>
+    <div><input type="submit" value="Добави"/></div>
+</form>
+
+      
+
+<?php
+include 'includes/PHPfooter.php'
+?>
